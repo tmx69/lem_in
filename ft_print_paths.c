@@ -6,7 +6,7 @@
 /*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:09:19 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/12 18:22:55 by rywisozk         ###   ########.fr       */
+/*   Updated: 2019/04/15 17:01:42 by rywisozk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	print_arr(char **arr)
 		ft_printf("%s\n", arr[i++]);
 }
 
-
 void	print_route(char *s)
 {
 	int i;
@@ -94,10 +93,26 @@ int		ft_strlnlen(char *s, int size)
 	return (size);
 }
 
+char	*del_h(char *s, int count, char *str)
+{
+	int length;
+
+	length = ft_strlnlen(s, count);
+	str = (char *)malloc(sizeof(char) * length);
+	length = 0;
+	while (s[count])
+	{
+		str[length] = s[count];
+		length++;
+		count++;
+	}
+	str[length] = '\0';
+	return (str);
+}
+
 char	*del_up_to_space(char *s, t_num *one)
 {
 	int		count;
-	int		length;
 	char	*str;
 
 	count = 0;
@@ -117,303 +132,83 @@ char	*del_up_to_space(char *s, t_num *one)
 		one->ants = one->ants - 1 ;
 	}
 	else
-	{
-		length = ft_strlnlen(s, count);
-		str = (char *)malloc(sizeof(char) * length);
-		length = 0;
-		while (s[count])
-		{
-			str[length] = s[count];
-			length++;
-			count++;
-		}
-		str[length] = '\0';
-	}
+		str = del_h(s, count, str);
 	return(str);
 }
 
 void 	print_lem2(char **s,t_number *roads, t_num one, t_farm *road)
 {
-	int i;
-	int	j;
-	int	ValStart;
-	j = 0;
-	i = 0;
-	// while(s[i])
-	// {
-	// 	printf("%s",s[i]);
-	// 	printf("\n");
-	// 	i++;
-	// }
-	// printf("\n");
-	ValStart = 0;
+	int	i;
+	int	valstart;
+
 	roads = road->head;
-	one.cnt_r = one.count_r;
+	one.cnt_r = road->size;
+	i = one.ants;
 	while (one.ants > 0)
 	{
-		ValStart = 0;
-		while (ValStart < one.count_r)
+		valstart = 0;
+		while (valstart < road->size)
 		{
-			if (s[ValStart])
+			if (s[valstart])
 			{
-				print_route(s[ValStart]);
-				s[ValStart] = del_up_to_space(s[ValStart], &one);
+				print_route(s[valstart]);
+				s[valstart] = del_up_to_space(s[valstart], &one);
 			}
-			ValStart++;
+			valstart++;
 		}
-		if (one.count_r <= one.ants)
-		{
-			if ((one.count_r + one.cnt_r) <= one.ants)
-				one.count_r = one.count_r + one.cnt_r;
+			if ((road->size + one.cnt_r) <= i)
+				road->size = road->size + one.cnt_r;
 			else
-				one.count_r++;
-		}
+				road->size++;
 		ft_printf("\n");
 	}
 }
+
+char *prnt_lem(t_num one, char *s, t_number *roads, int c)
+{
+	one.i = 0;
+	while (roads->road[one.i])
+	{
+		if (one.i != 0)
+		{
+			s = ft_strjoin(s, " ");
+			s = ft_strjoin(s, "L");
+			s = ft_strjoin(s, ft_itoa(c));
+			s = ft_strjoin(s, "-");
+			s = ft_strjoin(s, roads->road[one.i]);
+		}
+		else
+		{
+			s = ft_strjoin("L", ft_itoa(c));
+			s = ft_strjoin(s, "-");
+			s = ft_strjoin(s, roads->road[one.i]);
+		}
+		one.i++;
+	}
+	return (s);
+}
+
 void	print_lem(t_number *roads, t_num one, t_farm *road)
 {
-	int 		i;
-	int			j;
-	t_number	*tmp;
-	j = 0;
-	i = 1;
-	char		**s;
-	int c = 0;
-	tmp = roads;
-	road->head = roads;
-	while (tmp)
-	{
-		one.count_r++;
-		tmp = tmp->next;
-	}
-	// ft_printf("Ants:%d\n", one.ants);
-	// ft_printf("count_road:%d\n", one.count_r);
+	int		c;
+	char	**s;
+
+	one.j = 0;
+	ft_printf("count_road:%d\n", road->size);
+	ft_printf("Ants:%d\n", one.ants);
 	s = (char**)malloc(sizeof(char*) * 1000);
 	c = 1;
 	while (c <= one.ants)
 	{
-		s[j] = (char*)malloc(sizeof(char) * 10);
-		i = 0;
-		while (roads->road[i])
-		{
-			// printf("|%s|", roads->road[i]);
-			if (i != 0)
-			{
-				s[j] = ft_strjoin(s[j], " ");
-				s[j] = ft_strjoin(s[j], "L");
-				s[j] = ft_strjoin(s[j], ft_itoa(c));
-				s[j] = ft_strjoin(s[j], "-");
-				s[j] = ft_strjoin(s[j], roads->road[i]);
-			}
-			else
-			{
-			s[j] = ft_strjoin("L", ft_itoa(c));
-			s[j] = ft_strjoin(s[j], "-");
-			s[j] = ft_strjoin(s[j], roads->road[i]);
-			}
-			i++;
-		}
-		j++;
-		// printf("\n");
+		s[one.j] = (char*)malloc(sizeof(char) * 10);
+		s[one.j] = prnt_lem(one, s[one.j], roads, c);
+		one.j++;
 		c++;
-			if (roads->next == NULL)
-				roads = road->head;
-			else
-				roads = roads->next;
+		if (roads->next == NULL)
+			roads = road->head;
+		else
+			roads = roads->next;
 	}
 	print_lem2(s, roads, one, road);
+	free(s);
 }
-// void	print_lem(t_number *roads, t_num one, t_farm *road)
-// {
-// 	int 		i;
-// 	int			j;
-// 	t_number	*tmp;
-// 	j = 0;
-// 	i = 1;
-// 	char		**s;
-// 	char		**s1;
-// 	int c = 0;
-// 	int	b= 0;
-// 	tmp = roads;
-// 	road->head = roads;
-// 	one.min_r = 2147483646;
-// 	while (tmp)
-// 	{
-// 		one.count_r++;
-// 		i = 0;
-// 		while (tmp->road[i])
-// 		{
-// 			i++;
-// 		}
-// 		if (i < one.min_r)
-// 			one.min_r = i;
-// 		tmp = tmp->next;
-// 	}
-// 	ft_printf("Ants:%d\n", one.ants);
-// 	ft_printf("count_road:%d\n", one.count_r);
-// 	s = (char**)malloc(sizeof(char*) * 1000);
-// 	c = 1;
-// 	while (c <= one.ants)
-// 	{
-// 		s[j] = (char*)malloc(sizeof(char) * 10);
-// 		i = 0;
-// 		while (roads->road[i])
-// 		{
-// 			printf("|%s|", roads->road[i]);
-// 			if (i != 0)
-// 			{
-// 				s[j] = ft_strjoin(s[j], " ");
-// 				s[j] = ft_strjoin(s[j], "L");
-// 				s[j] = ft_strjoin(s[j], ft_itoa(c));
-// 				s[j] = ft_strjoin(s[j], "-");
-// 				s[j] = ft_strjoin(s[j], roads->road[i]);
-// 			}
-// 			else
-// 			{
-// 			s[j] = ft_strjoin("L", ft_itoa(c));
-// 			s[j] = ft_strjoin(s[j], "-");
-// 			s[j] = ft_strjoin(s[j], roads->road[i]);
-// 			}
-// 			// j++;
-// 			i++;
-// 		}
-// 		j++;
-// 		printf("\n");
-// 		c++;
-// 		if (one.max_paths >= one.ants)
-// 		{
-// 			if (roads->next)
-// 				roads = roads->next;
-// 		}
-// 	}
-
-// 	print_lem2(s, roads, one, road);
-// }
-
-// void 	print_lem2(char **s,t_number *roads, t_num one, t_farm *road)
-// {
-// 	int i;
-// 	int	j;
-// 	int	ValStart;
-// 	int ants;
-// 	char **s1;
-// 	int		*l;
-// 	j = 0;
-// 	i = 0;
-// 	printf("\n");
-// 	i = 0;
-// 	ValStart = 0;
-// 	roads = road->head;
-// 	l = (int*)malloc(sizeof(int) * one.ants);
-// 	ft_bzero(l, one.ants);
-// 	one.count = 1;
-// 	one.cnt_r = one.count_r;
-// 	while (one.ants >= 0)
-// 	{
-// 		ValStart = 1;
-// 		ants = one.count;
-// 		ft_printf("|COUNT_R %d|", one.cnt_r);
-// 		while (ValStart < one.cnt_r - 1)
-// 		{
-// 			if (roads->road[l[ValStart]] != '\0')
-// 				print_ant(ants, roads->road[l[ValStart]]);
-// 			else
-// 			{
-// 				one.ants--;
-// 				one.count++;
-// 			}
-// 			if (roads->next == NULL)
-// 				roads = road->head;
-// 			else
-// 				roads = roads->next;
-// 			ValStart++;
-// 			ants++;
-// 		}
-// 		i = 0;
-// 		while (ValStart > 0)
-// 		{
-// 			l[i] += 1;
-// 			ValStart--;
-// 			i++;
-// 		}
-// 		if (one.cnt_r <= one.ants - 1)
-// 		{
-// 			one.cnt_r = one.cnt_r + one.count_r;
-// 			// if ((one.cnt_r + one.count_r) < one.ants)
-// 			// 	one.cnt_r = one.cnt_r + one.count_r;
-// 			// else
-// 			// {
-// 			// 	while (one.cnt_r <= one.ants)
-// 			// 		one.cnt_r++;
-// 			// }
-// 		}
-// 		ft_printf("\n");
-// 	}
-// }
-// void	print_lem(t_number *roads, t_num one, t_farm *road)
-// {
-// 	int 		i;
-// 	int			j;
-// 	t_number	*tmp;
-// 	j = 0;
-// 	i = 1;
-// 	char		**s;
-// 	char		**s1;
-// 	int c = 0;
-// 	int	b= 0;
-// 	tmp = roads;
-// 	road->head = roads;
-// 	one.min_r = 2147483646;
-// 	while (tmp)
-// 	{
-// 		one.count_r++;
-// 		i = 0;
-// 		while (tmp->road[i])
-// 		{
-// 			i++;
-// 		}
-// 		if (i < one.min_r)
-// 			one.min_r = i;
-// 		tmp = tmp->next;
-// 	}
-// 	ft_printf("Ants:%d\n", one.ants);
-// 	ft_printf("count_road:%d\n", one.count_r);
-// 	s = (char**)malloc(sizeof(char*) * 1000);
-// 	c = 1;
-// 	while (c <= one.ants)
-// 	{
-// 		s[j] = (char*)malloc(sizeof(char) * 10);
-// 		i = 0;
-// 		while (roads->road[i])
-// 		{
-// 			printf("|%s|", roads->road[i]);
-// 			if (i != 0)
-// 			{
-// 				s[j] = ft_strjoin(s[j], " ");
-// 				s[j] = ft_strjoin(s[j], "L");
-// 				s[j] = ft_strjoin(s[j], ft_itoa(c));
-// 				s[j] = ft_strjoin(s[j], "-");
-// 				s[j] = ft_strjoin(s[j], roads->road[i]);
-// 			}
-// 			else
-// 			{
-// 			s[j] = ft_strjoin("L", ft_itoa(c));
-// 			s[j] = ft_strjoin(s[j], "-");
-// 			s[j] = ft_strjoin(s[j], roads->road[i]);
-// 			}
-// 			// j++;
-// 			i++;
-// 		}
-// 		j++;
-// 		printf("\n");
-// 		c++;
-// 		if (one.max_paths >= one.ants)
-// 		{
-// 			if (roads->next)
-// 				roads = roads->next;
-// 		}
-// 	}
-
-// 	print_lem2(s, roads, one, road);
-// }

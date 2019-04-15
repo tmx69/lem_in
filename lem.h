@@ -6,7 +6,7 @@
 /*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/22 13:39:19 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/12 15:43:34 by rywisozk         ###   ########.fr       */
+/*   Updated: 2019/04/15 15:54:06 by rywisozk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ char	**del_link(char **links, t_number *room, t_num one);
 void	print_arr(char **arr);
 char	**del(char **links, int i);
 void	print_room(t_number *rooms);
-int		count_len(char **links);
 t_number	*sort_roads(t_number *roads);
 void	ft_init(t_farm *rooms, t_farm *roads);
 void	print_route(char *s);
@@ -68,4 +67,5 @@ int		ft_strlnlen(char *s, int size);
 char	*del_up_to_space(char *s, t_num *one);
 void 	print_lem2(char **s,t_number *roads, t_num one, t_farm *road);
 void	print_lem(t_number *roads, t_num one, t_farm *road);
+char	*del_h(char *s, int count, char *str);
 #endif

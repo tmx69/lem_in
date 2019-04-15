@@ -6,7 +6,7 @@
 /*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:10:47 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/11 19:48:35 by jritchie         ###   ########.fr       */
+/*   Updated: 2019/04/15 10:46:48 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	new_path(t_number **rooms, char ***road, char *parent, t_num one)
 {
 	int i;
 	int	vis;
+	char	**n;
 
 	vis = 1;
 	i = 1;
@@ -58,12 +59,13 @@ void	new_path(t_number **rooms, char ***road, char *parent, t_num one)
 			vis = (*rooms)->visited;
 			(*rooms)->visited = 0;
 			if (ft_strequ((*rooms)->n, one.end))
-			{
 				(*road)[i] = NULL;
-			}
 		}
 		*rooms = (*rooms)->next;
 	}
+	// n = ft_strdup_two_dim(*road);
+	// free(*road);
+	// *road = n;
 }
 
 int		ft_make(t_number *rooms, t_num one, char ***road, char ***links)
@@ -117,19 +119,20 @@ void	make_road(t_farm *rooms, t_farm *roads, char ***links, t_num one)
 {
 	int			i;
 	char		**road;
+	char		**nr;
 	t_number	*temp;
 	t_farm		new_s;
 
 	new_struct(rooms, &new_s);
 	temp = new_s.head;
-	road = (char **)malloc(sizeof(char *) * 1024);
+	road = (char **)malloc(sizeof(char *) * 100);
 	i = 0;
 	while (temp->visited == 1)
 	{
 		if ((ft_make(temp, one, &road, &(*links))))
 		{
 			if (check_valid(&new_s, road, one))
-				new_road(&roads, ft_strdup_two_dim(road));
+				new_road(&roads, road);
 			i++;
 		}
 		else
@@ -140,4 +143,5 @@ void	make_road(t_farm *rooms, t_farm *roads, char ***links, t_num one)
 			temp = temp->next;
 		}
 	}
+	// free(temp);
 }

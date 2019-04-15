@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup_two_dim.c                                :+:      :+:    :+:   */
+/*   ft_count_len.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/25 11:18:32 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/12 15:50:59 by jritchie         ###   ########.fr       */
+/*   Created: 2019/04/12 11:39:14 by jritchie          #+#    #+#             */
+/*   Updated: 2019/04/12 11:39:46 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**ft_strdup_two_dim(char **s1)
+int			count_len(char **links)
 {
-	char	**str;
-	int		i;
+	int i;
 
 	i = 0;
-	while (s1[i])
+	while (links[i])
 		i++;
-	if (!(str = (char **)malloc(sizeof(char *) * i + 1)))
-		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		str[i] = ft_strdup(s1[i]);
-		i++;
-	}
-	str[i] = NULL;
-	// free_arr(&s1);
-	return (str);
+	return (i);
 }

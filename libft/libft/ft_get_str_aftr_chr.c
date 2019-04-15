@@ -6,7 +6,7 @@
 /*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 10:42:22 by jritchie          #+#    #+#             */
-/*   Updated: 2019/03/27 13:52:54 by jritchie         ###   ########.fr       */
+/*   Updated: 2019/04/12 13:25:16 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ char	*ft_get_str_aftr_chr(char *arr, char c)
 			str[i] = arr[i];
 		return (str);
 	}
+	// ft_strdel(&arr);
 	return (NULL);
 }

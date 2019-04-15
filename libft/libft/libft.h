@@ -6,7 +6,7 @@
 /*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 18:34:57 by jritchie          #+#    #+#             */
-/*   Updated: 2019/03/29 15:37:14 by jritchie         ###   ########.fr       */
+/*   Updated: 2019/04/12 11:40:12 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,7 @@ void				ft_error(void);
 char				*ft_get_str_bfr_chr(char *arr, char c);
 char				*ft_get_str_aftr_chr(char *arr, char c);
 char				**ft_strdup_two_dim(char **s1);
+void				free_arr(char ***arr);
+int					count_len(char **links);
 
 #endif

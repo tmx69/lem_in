@@ -6,13 +6,13 @@
 /*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:32:17 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/11 19:34:12 by jritchie         ###   ########.fr       */
+/*   Updated: 2019/04/12 11:37:46 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem.h"
 
-void	ft_init(t_farm *rooms, t_farm *roads)
+void		ft_init(t_farm *rooms, t_farm *roads)
 {
 	rooms->size = 0;
 	rooms->head = NULL;
@@ -22,7 +22,7 @@ void	ft_init(t_farm *rooms, t_farm *roads)
 	roads->tail = NULL;
 }
 
-int		count_len(char **links)
+int			count_len(char **links)
 {
 	int i;
 
@@ -32,7 +32,7 @@ int		count_len(char **links)
 	return (i);
 }
 
-int		compare(int i, int j)
+int			compare(int i, int j)
 {
 	return (i <= j ? 1 : 0);
 }

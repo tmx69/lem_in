@@ -6,7 +6,7 @@
 /*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:02:28 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/11 19:36:41 by jritchie         ###   ########.fr       */
+/*   Updated: 2019/04/15 10:47:03 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int		count_link(t_number *room, t_num one)
 
 char	**del(char **links, int i)
 {
-	char **new1;
-	char **new2;
+	char	**new1;
+	char	**new2;
 	int		j;
 
 	j = 0;
@@ -44,6 +44,7 @@ char	**del(char **links, int i)
 	while (new1[i])
 		new1[i++] = new2[j++];
 	new1[i - 1] = NULL;
+	// free(new2);
 	return (new1);
 }
 
@@ -65,6 +66,8 @@ char	**find_del_link(char **links, t_number *room, t_num one)
 			return (links);
 		}
 		i++;
+	// free(src1);
+	// free(src2);
 	}
 	return (0);
 }

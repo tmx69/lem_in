@@ -6,7 +6,7 @@
 /*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:03:42 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/11 19:36:23 by jritchie         ###   ########.fr       */
+/*   Updated: 2019/04/15 10:46:13 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int		find_link(t_farm **rooms, char *link, char *room, t_num one)
 		if (!visited((*rooms)->head, before, one))
 			return (1);
 	}
+	// free(before);
+	// free(after);
 	return (0);
 }
 
@@ -59,6 +61,7 @@ void	mark_visit(char **lnks)
 
 	arr = ft_strnew(2);
 	arr[0] = '.';
+	// ft_strdel(&(*lnks));
 	*(lnks) = arr;
 }
 
@@ -93,14 +96,13 @@ char	*make_queue(t_farm **rooms, char ***lnks, t_num one)
 int		check_paths(char **links, t_num one, t_farm *rooms)
 {
 	int			i;
-	int			j;
-	char		*room;
 	char		**temp;
 	t_number	*tmp;
 
 	i = 0;
 	one.i = 1;
 	temp = ft_strdup_two_dim(links);
+	// temp = links;
 	one.curr = make_queue(&rooms, &temp, one);
 	one.i++;
 	tmp = (*rooms).head;
@@ -115,5 +117,8 @@ int		check_paths(char **links, t_num one, t_farm *rooms)
 			one.i++;
 		i++;
 	}
+	// free(temp);
+	// free_arr(&temp);
+	// free(rooms->head);
 	return (1);
 }

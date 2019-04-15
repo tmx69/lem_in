@@ -6,7 +6,7 @@
 /*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:09:57 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/11 19:47:22 by jritchie         ###   ########.fr       */
+/*   Updated: 2019/04/15 10:30:35 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	new_room(t_farm **rooms, char *val, char *prnt, int vis)
 		(*rooms)->tail->next = new;
 	(*rooms)->tail = new;
 	(*rooms)->size++;
+	// free(*rooms);
+	// free(val);
 }
 
 void	new_road(t_farm **roads, char **val)
@@ -35,15 +37,15 @@ void	new_road(t_farm **roads, char **val)
 
 	new = (t_number *)malloc(sizeof(t_number));
 	new->next = NULL;
-	new->road = val;
+	new->road = ft_strdup_two_dim(val);
 	new->size_road = count_len(val);
 	if (!(*roads)->head)
 		(*roads)->head = new;
 	if ((*roads)->tail)
 		(*roads)->tail->next = new;
 	(*roads)->tail = new;
-
 	(*roads)->size++;
+	// arrdel(val);
 }
 
 t_farm	*new_struct(t_farm *rooms, t_farm *new_s)
