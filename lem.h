@@ -6,7 +6,7 @@
 /*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/22 13:39:19 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/15 15:54:06 by rywisozk         ###   ########.fr       */
+/*   Updated: 2019/04/16 15:20:47 by rywisozk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ char	*del_up_to_space(char *s, t_num *one);
 void 	print_lem2(char **s,t_number *roads, t_num one, t_farm *road);
 void	print_lem(t_number *roads, t_num one, t_farm *road);
 char	*del_h(char *s, int count, char *str);
+void	list_del1(t_number **alst);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_del_link.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:02:28 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/15 10:47:03 by jritchie         ###   ########.fr       */
+/*   Updated: 2019/04/16 15:15:43 by rywisozk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ char	**find_del_link(char **links, t_number *room, t_num one)
 		|| (ft_strequ(src2, room->n) && ft_strequ(src1, room->parent)))
 		{
 			links = del(links, i);
+				free(src1);
+				free(src2);
 			return (links);
 		}
 		i++;
-	// free(src1);
-	// free(src2);
+	free(src1);
+	free(src2);
 	}
 	return (0);
 }
@@ -95,7 +97,7 @@ int		check_parents(t_number *rooms)
 char	**del_link(char **links, t_number *room, t_num one)
 {
 	t_number	*tmp;
-	t_number	*link;
+	// t_number	*link;
 
 	tmp = room;
 	while (ft_strequ(tmp->parent, one.start))
@@ -113,5 +115,6 @@ char	**del_link(char **links, t_number *room, t_num one)
 		else
 			tmp = tmp->next;
 	}
+	// free(tmp);
 	return (links);
 }

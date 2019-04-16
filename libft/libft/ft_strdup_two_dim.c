@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup_two_dim.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 11:18:32 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/12 15:50:59 by jritchie         ###   ########.fr       */
+/*   Updated: 2019/04/16 13:45:34 by rywisozk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**ft_strdup_two_dim(char **s1)
 		str[i] = ft_strdup(s1[i]);
 		i++;
 	}
-	str[i] = NULL;
+	// str[i] = NULL;
 	// free_arr(&s1);
 	return (str);
 }

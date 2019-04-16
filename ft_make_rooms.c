@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_make_rooms.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:03:42 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/15 10:46:13 by jritchie         ###   ########.fr       */
+/*   Updated: 2019/04/16 15:14:14 by rywisozk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,25 @@ int		find_link(t_farm **rooms, char *link, char *room, t_num one)
 		!ft_strequ(".", link))
 	{
 		if (!visited((*rooms)->head, after, one))
+		{
+			free(before);
+			free(after);
 			return (2);
+		}
 	}
 	else if (ft_strequ(room, after) && !ft_strequ(".", link) &&
 			!ft_strequ(".", link))
 	{
 		if (!visited((*rooms)->head, before, one))
+		{
+			free(before);
+			free(after);
 			return (1);
+		}
 	}
-	// free(before);
-	// free(after);
+	// free(link);
+	free(before);
+	free(after);
 	return (0);
 }
 
@@ -117,7 +126,16 @@ int		check_paths(char **links, t_num one, t_farm *rooms)
 			one.i++;
 		i++;
 	}
+	// i = 0;
+	// while (temp[i])
+	// {
+	// // 	ft_strdel(&temp[i]);
+	// 	free(temp[i]);
+	// 	i++;
+	// }
 	// free(temp);
+	// temp = NULL;
+	// free(tmp);
 	// free_arr(&temp);
 	// free(rooms->head);
 	return (1);

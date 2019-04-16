@@ -6,7 +6,7 @@
 /*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/22 17:07:44 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/15 16:11:27 by rywisozk         ###   ########.fr       */
+/*   Updated: 2019/04/16 15:40:39 by rywisozk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,22 @@ t_farm	choose_paths(t_farm paths, int ants)
 	paths = del_paths(paths, i);
 	return (paths);
 }
+void	list_del1(t_number **alst)
+{
+	t_number *tmp;
+	t_number *swap;
 
+	tmp = *alst;
+	if (tmp == NULL)
+		return ;
+	while (tmp)
+	{
+		swap = tmp->next;
+		free(tmp);
+		tmp = swap;
+	}
+	*alst = NULL;
+}
 int		ft_solve(char **links, t_num one)
 {
 	t_farm	rooms;
@@ -221,6 +236,8 @@ int		ft_solve(char **links, t_num one)
 		roads = choose_paths(roads, one.ants);
 	// print_road(roads.head);
 	print_lem(roads.head, one, &roads);
+	
+	list_del1(&rooms.head);
 	// free_arr(&links);
 	// free_str(rooms.head);
 	// free_str(roads.head);

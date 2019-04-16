@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_new_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:09:57 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/15 10:30:35 by jritchie         ###   ########.fr       */
+/*   Updated: 2019/04/16 15:48:12 by rywisozk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void	new_room(t_farm **rooms, char *val, char *prnt, int vis)
 		(*rooms)->tail->next = new;
 	(*rooms)->tail = new;
 	(*rooms)->size++;
-	// free(*rooms);
+	// list_del(&new);
+	// free(new);
+	// free(rooms);
 	// free(val);
 }
 
@@ -45,6 +47,8 @@ void	new_road(t_farm **roads, char **val)
 		(*roads)->tail->next = new;
 	(*roads)->tail = new;
 	(*roads)->size++;
+	// free(new);
+	// new = NULL;
 	// arrdel(val);
 }
 
