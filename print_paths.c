@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_paths.c                                   :+:      :+:    :+:   */
+/*   print_paths.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:09:19 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/17 12:32:18 by rywisozk         ###   ########.fr       */
+/*   Updated: 2019/04/11 15:16:35 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	print_rooms(t_farm *rooms)
 	tmp = rooms->head;
 	while (tmp)
 	{
-		ft_printf("room: %s, parent: %s, visited: %d\n",
-		tmp->n, tmp->parent, tmp->visited);
+		ft_printf("room: %s, parent: %s, visited: %d\n", tmp->n, tmp->parent, tmp->visited);
 		tmp = tmp->next;
 	}
 }
@@ -32,16 +31,15 @@ void	print_room(t_number *rooms)
 	tmp = rooms;
 	while (tmp)
 	{
-		ft_printf("room: %s, parent: %s, visited: %d\n",
-		tmp->n, tmp->parent, tmp->visited);
+		ft_printf("room: %s, parent: %s, visited: %d\n", tmp->n, tmp->parent, tmp->visited);
 		tmp = tmp->next;
 	}
 }
 
 void	print_road(t_number *road)
 {
-	t_number	*tmp;
-	int			i;
+	t_number *tmp;
+	int i;
 
 	tmp = road;
 	while (tmp)
@@ -57,38 +55,23 @@ void	print_road(t_number *road)
 	}
 }
 
-void	print_arr(char **arr)
+void	print_lem(t_number *roads, t_num one)
 {
 	int i;
+	int j;
 
-	i = 0;
-	while (arr[i])
-		ft_printf("%s\n", arr[i++]);
-}
-
-void	print_route(char *s)
-{
-	int i;
-
-	i = 0;
-	if (s && s != NULL)
+	j = 0;
+	i = 1;
+	while (one.ants)
 	{
-		while (s && s[i] != ' ')
+		while (j < one.max_paths)
 		{
-			ft_printf("%c", s[i]);
+			ft_printf("L%d-%s", i, roads->road[0]);
+			ft_printf(" ");
 			i++;
-			if (s[i] == 'L' || s[i] == '\0')
-				break ;
+			roads = roads->next;
+			j++;
 		}
+		one.ants--;
 	}
-	ft_printf(" ");
-}
-
-int		ft_strlnlen(char *s, int size)
-{
-	while (s[size])
-	{
-		size++;
-	}
-	return (size);
 }

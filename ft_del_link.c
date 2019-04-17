@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_del_link.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:02:28 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/16 15:15:43 by rywisozk         ###   ########.fr       */
+/*   Updated: 2019/04/16 17:59:45 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem.h"
 
-int		count_link(t_number *room, t_num one)
+int		count_link(t_number *room)
 {
 	char		*link;
 	t_number	*tmp;
@@ -48,7 +48,7 @@ char	**del(char **links, int i)
 	return (new1);
 }
 
-char	**find_del_link(char **links, t_number *room, t_num one)
+char	**find_del_link(char **links, t_number *room)
 {
 	char	*src1;
 	char	*src2;
@@ -63,8 +63,8 @@ char	**find_del_link(char **links, t_number *room, t_num one)
 		|| (ft_strequ(src2, room->n) && ft_strequ(src1, room->parent)))
 		{
 			links = del(links, i);
-				free(src1);
-				free(src2);
+			free(src1);
+			free(src2);
 			return (links);
 		}
 		i++;
@@ -97,24 +97,22 @@ int		check_parents(t_number *rooms)
 char	**del_link(char **links, t_number *room, t_num one)
 {
 	t_number	*tmp;
-	// t_number	*link;
 
 	tmp = room;
 	while (ft_strequ(tmp->parent, one.start))
 		tmp = tmp->next;
 	while (tmp)
 	{
-		if (count_link(tmp, one))
+		if (count_link(tmp))
 		{
 			if (tmp && !check_parents(tmp))
 				tmp = tmp->next;
 			if (tmp)
-				links = find_del_link(links, tmp, one);
+				links = find_del_link(links, tmp);
 			return (links);
 		}
 		else
 			tmp = tmp->next;
 	}
-	// free(tmp);
 	return (links);
 }

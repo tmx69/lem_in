@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_make_road.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:10:47 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/16 17:29:05 by rywisozk         ###   ########.fr       */
+/*   Updated: 2019/04/16 18:36:00 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	new_path(t_number **rooms, char ***road, char *parent, t_num one)
 {
 	int i;
 	int	vis;
-	char	**n;
 
 	vis = 1;
 	i = 1;
@@ -63,12 +62,9 @@ void	new_path(t_number **rooms, char ***road, char *parent, t_num one)
 		}
 		*rooms = (*rooms)->next;
 	}
-	// n = ft_strdup_two_dim(*road);
-	// free(*road);
-	// *road = n;
 }
 
-int		ft_make(t_number *rooms, t_num one, char ***road, char ***links)
+int		ft_make(t_number *rooms, t_num one, char ***road)
 {
 	int			vis;
 	char		*parent;
@@ -115,11 +111,10 @@ int		check_valid(t_farm *rooms, char **road, t_num one)
 	return (0);
 }
 
-void	make_road(t_farm *rooms, t_farm *roads, char ***links, t_num one)
+void	make_road(t_farm *rooms, t_farm *roads, t_num one)
 {
 	int			i;
 	char		**road;
-	char		**nr;
 	t_number	*temp;
 	t_farm		new_s;
 
@@ -129,7 +124,7 @@ void	make_road(t_farm *rooms, t_farm *roads, char ***links, t_num one)
 	i = 0;
 	while (temp->visited == 1)
 	{
-		if ((ft_make(temp, one, &road, &(*links))))
+		if ((ft_make(temp, one, &road)))
 		{
 			if (check_valid(&new_s, road, one))
 				new_road(&roads, road);
@@ -143,5 +138,5 @@ void	make_road(t_farm *rooms, t_farm *roads, char ***links, t_num one)
 			temp = temp->next;
 		}
 	}
-	// free(temp);
+	list_del1(&temp);
 }

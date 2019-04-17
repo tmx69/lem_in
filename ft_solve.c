@@ -6,7 +6,7 @@
 /*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/22 17:07:44 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/16 15:40:39 by rywisozk         ###   ########.fr       */
+/*   Updated: 2019/04/17 13:46:48 by rywisozk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		find_max_nb_paths(char **links, t_num one, t_farm *rooms)
 	i = 0;
 	n = 0;
 	nb = 0;
-	while (i < one.len)
+	while (links[i])
 	{
 		before = ft_get_str_bfr_chr(links[i], '-');
 		after = ft_get_str_aftr_chr(links[i], '-');
@@ -63,8 +63,6 @@ int		find_max_nb_paths(char **links, t_num one, t_farm *rooms)
 	nb = nb <= n ? nb : n;
 	i = find_min_visited(rooms, one);
 	nb = i <= nb ? i : nb;
-	// free(before);
-	// free(after);
 	return (nb);
 }
 
@@ -130,7 +128,6 @@ void	free_str(t_number *rooms)
 
 t_farm	del_paths(t_farm paths, int i)
 {
-	t_number	*temp;
 	t_number	*road;
 
 	i--;
@@ -173,8 +170,6 @@ t_farm	choose_paths(t_farm paths, int ants)
 	{
 		prev = res;
 		res = (ants / i) - 1 + road->size_road;
-		ft_printf("res: %d\n", res);
-		ft_printf("prev: %d\n", prev);
 		if (res >= prev)
 		{
 			i--;
@@ -184,10 +179,39 @@ t_farm	choose_paths(t_farm paths, int ants)
 		if (road)
 			i++;
 	}
-	// ft_printf("i: %d\n", i);
 	paths = del_paths(paths, i);
 	return (paths);
 }
+
+int		choose(t_farm paths, int ants)
+{
+	t_number	*road;
+	int			i;
+	int			prev;
+	int			res;
+
+	i = 1;
+	road = paths.head;
+	prev = 1000000;
+	res = (ants / i) - 1 + road->size_road;
+	road = road->next;
+	i++;
+	while (road && res < prev)
+	{
+		prev = res;
+		res = (ants / i) - 1 + road->size_road;
+		if (res >= prev)
+		{
+			i--;
+			break ;
+		}
+		road = road->next;
+		if (road)
+			i++;
+	}
+	return (res);
+}
+
 void	list_del1(t_number **alst)
 {
 	t_number *tmp;
@@ -199,10 +223,29 @@ void	list_del1(t_number **alst)
 	while (tmp)
 	{
 		swap = tmp->next;
+		if (tmp->n)
+			ft_strdel(&tmp->n);
+		// if (tmp->road)
+		// {
+		// 	arrdel(tmp->road);
+		// 	free(tmp->road);
+		// 	tmp->road = NULL;
+		// }
 		free(tmp);
 		tmp = swap;
 	}
 	*alst = NULL;
+}
+
+void	count_roads(t_number *roads, t_farm *road)
+{
+	roads = road->head;
+	road->size = 0;
+	while (roads)
+	{
+		road->size++;
+		roads = roads->next;
+	}
 }
 int		ft_solve(char **links, t_num one)
 {
@@ -214,33 +257,25 @@ int		ft_solve(char **links, t_num one)
 	check_paths(links, one, &rooms);
 	check_valid_paths(rooms.head, one);
 	one.max_paths = find_max_nb_paths(links, one, &rooms);
-	make_road(&rooms, &roads, &links, one);
+	make_road(&rooms, &roads, one);
 	if (one.ants > 1)
 		while (!check_same(roads.head, one, roads.size) && one.max_paths != 1)
 		{
 			links = del_link(links, rooms.head, one);
+			// list_del1(&rooms.head);
+			// list_del1(&roads.head);
 			one.len = count_len(links);
 			ft_init(&rooms, &roads);
 			one.curr = one.start;
-			// free_str(rooms.head);
-			// free_str(roads.head);
-			// free(rooms.tail);
 			check_paths(links, one, &rooms);
-			make_road(&rooms, &roads, &links, one);
+			make_road(&rooms, &roads, one);
 		}
 	roads.head = sort_roads(roads.head);
-	// ft_printf("ants: %d\n", one.ants);
-	// ft_printf("nb of roads: %d\n", roads.size);
-	// print_road(roads.head);
 	if (roads.size > 1)
 		roads = choose_paths(roads, one.ants);
-	// print_road(roads.head);
+	print_road(roads.head);
+	count_roads(roads.head, &roads);
 	print_lem(roads.head, one, &roads);
-	
-	list_del1(&rooms.head);
-	// free_arr(&links);
-	// free_str(rooms.head);
-	// free_str(roads.head);
-	// print_lem(roads, one);
+	// list_del1(&rooms.head);
 	return (0);
 }

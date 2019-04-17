@@ -3,31 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_start.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/22 13:38:39 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/16 16:12:27 by rywisozk         ###   ########.fr       */
+/*   Updated: 2019/04/16 18:32:04 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem.h"
 
-void	get_start_end(char *line, int fd, t_num *one)
+void	get_start_end(char **file, t_num *one)
 {
-	while (!ft_strequ(line, "##start"))
-		if (get_next_line(fd, &line) <= 0)
-			ft_error();
-	// free(line);
-	get_next_line(fd, &line);
-	if (!(one->start = ft_get_str_bfr_chr(line, ' ')))
+	int i;
+
+	i = 0;
+	while (file[i])
+	{
+		if (ft_strequ(file[i], "##end"))
+		{
+			i++;
+			one->end = ft_get_str_bfr_chr(file[i], ' ');
+		}
+		if (ft_strequ(file[i], "##start"))
+		{
+			i++;
+			one->start = ft_get_str_bfr_chr(file[i], ' ');
+		}
+		i++;
+	}
+	if (!one->start && !one->end)
 		ft_error();
-	while (!ft_strequ(line, "##end"))
-		if (get_next_line(fd, &line) <= 0)
-			ft_error();
-	get_next_line(fd, &line);
-	if (!(one->end = ft_get_str_bfr_chr(line, ' ')))
-		ft_error();
-	// free(line);
 }
 
 void	check_hash_l(char **paths)
@@ -64,75 +69,101 @@ char	**ft_strdup_two_dim_free(char **s1)
 		i++;
 	}
 	str[i] = NULL;
-	// free_arr(&s1);
 	return (str);
 }
 
-
-char	**ft_read(int fd, t_num *one)
+char	**ft_strjoin_two_dim(char **dst, char *src)
 {
-	char	*line;
-	int		i;
-	char	**paths;
-	// char	**new;
+	int len;
+	int i;
+	char **new;
 
-	line = NULL;
 	i = 0;
-	paths = (char **)malloc(sizeof(char *) * 20000);
-	get_next_line(fd, &line);
-	one->ants = ft_atoi(line);
-	free(line);
-	get_start_end(line, fd, one);
-	free(line);
-	while (get_next_line(fd, &line) > 0)
+	len = count_len(dst);
+	new = (char **)malloc(sizeof(char *) * (len + 2));
+	while (i < len)
 	{
-		if (line[0] != '#' && line[0] != 'L')
-		{
-			while (!ft_check_symbol(line, '-'))
-			{
-				free(line);
-				get_next_line(fd, &line);
-			}
-			paths[i++] = ft_strdup(line);
-		}
+		new[i] = ft_strdup(dst[i]);
+		i++;
 	}
-	free(line);
+	new[i++] = src;
+	new[i] = NULL;
+	if (dst)
+	{
+		arrdel(dst);
+		free(dst);
+		dst = NULL;
+	}
+	return (new);
+}
+
+char	**ft_read(int fd, char **file)
+{
+	int i;
+	char *line;
+
+	i = 0;
+	line = NULL;
+	while (get_next_line(fd, &line) > 0)
+		file = ft_strjoin_two_dim(file, line);
+	
+	return (file);
+}
+
+
+char	**ft_parse(char **file, t_num *one)
+{
+	int		i;
+	int		j;
+	char	**paths;
+
+	i = 0;
+	j = 0;
+	paths = NULL;
+	one->ants = ft_atoi(file[i]);
+	get_start_end(file, one);
+	i++;
+	while (file[i])
+	{
+		if (file[i][0] != '#' && file[i][0] != 'L')
+		{
+			while (!ft_check_symbol(file[i], '-'))
+				i++;
+			paths = ft_strjoin_two_dim(paths, ft_strdup(file[i]));
+		}
+		i++;
+	}
 	if (!i)
 		ft_error();
-	paths[i] = NULL;
-	// new = ft_strdup_two_dim_free(paths);
-	// free_arr(new);
 	one->len = i;
 	return (paths);
 }
 
 int		main(int argc, char **argv)
 {
-	char	*file;
 	char	**links;
-	int		fd;
+	char	**file;
+	char *op;
 	t_num	one;
+	int fd;
 
-	// if (argv[1])
+	file = NULL;
+	// if (argv[1] || argc != 1)
 	// 	ft_error();
-	// links = ft_read(0, &one);
-	file = argv[1];
-		fd = open(file, O_RDONLY);
-		links = ft_read(fd, &one);
+	if (argc > 0)
+		op = argv[1];
+	fd = open(op, O_RDONLY);
+	file = ft_read(fd, file);
+	links = ft_parse(file, &one);
+	arrdel(file);
+	free(file);
+	file = NULL;
 	check_hash_l(links);
 	if (one.ants <= 0)
 		ft_error();
 	ft_solve(links, one);
-	int i = 0;
-	while (links[i])
-	{
-		ft_strdel(&links[i]);
-		i++;
-	}
-	// free_arr(&links);
-	// arrdel(links);
+	arrdel(links);
 	free(links);
 	links = NULL;
-	// free(file);
 	return (0);
 }

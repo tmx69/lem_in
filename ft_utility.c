@@ -6,11 +6,53 @@
 /*   By: jritchie <jritchie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:32:17 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/12 11:37:46 by jritchie         ###   ########.fr       */
+/*   Updated: 2019/04/16 17:39:17 by jritchie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem.h"
+
+char	*ft_get_str_bfr_chr(char *arr, char c)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	if (arr)
+	{
+		while (arr[i] != c && arr[i])
+			i++;
+		if (arr[i] != c)
+			return (NULL);
+		str = (char *)malloc(sizeof(char) * (i + 1));
+		str[i] = '\0';
+		while (--i >= 0)
+			str[i] = arr[i];
+		return (str);
+	}
+	return (NULL);
+}
+
+char	*ft_get_str_aftr_chr(char *arr, char c)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	if (arr)
+	{
+		arr = ft_strchr(arr, c);
+		arr++;
+		while (arr[i])
+			i++;
+		str = (char *)malloc(sizeof(char) * (i + 1));
+		str[i] = '\0';
+		while (--i >= 0)
+			str[i] = arr[i];
+		return (str);
+	}
+	return (NULL);
+}
 
 void		ft_init(t_farm *rooms, t_farm *roads)
 {
@@ -27,8 +69,9 @@ int			count_len(char **links)
 	int i;
 
 	i = 0;
-	while (links[i])
-		i++;
+	if (links)
+		while (links[i])
+			i++;
 	return (i);
 }
 

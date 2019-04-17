@@ -6,7 +6,7 @@
 /*   By: rywisozk <rywisozk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/22 13:39:19 by jritchie          #+#    #+#             */
-/*   Updated: 2019/04/16 15:20:47 by rywisozk         ###   ########.fr       */
+/*   Updated: 2019/04/17 13:47:00 by rywisozk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct	s_num
 }				t_num;
 
 int		ft_solve(char **paths, t_num one);
-void	make_road(t_farm *rooms, t_farm *roads, char ***links, t_num one);
+void	make_road(t_farm *rooms, t_farm *roads, t_num one);
 void	new_room(t_farm **rooms, char *val, char *prnt, int vis);
 void	new_road(t_farm **roads, char **val);
 t_farm	*new_struct(t_farm *rooms, t_farm *new_s);
@@ -67,6 +67,9 @@ int		ft_strlnlen(char *s, int size);
 char	*del_up_to_space(char *s, t_num *one);
 void 	print_lem2(char **s,t_number *roads, t_num one, t_farm *road);
 void	print_lem(t_number *roads, t_num one, t_farm *road);
+char	*ft_get_str_bfr_chr(char *arr, char c);
+char	*ft_get_str_aftr_chr(char *arr, char c);
 char	*del_h(char *s, int count, char *str);
 void	list_del1(t_number **alst);
+void	count_roads(t_number *roads, t_farm *road);
 #endif
